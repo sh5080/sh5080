@@ -1,0 +1,50 @@
+<main>
+    <div class="move">
+      Hello
+    </div>
+  </main>
+  <style>
+    div.box {
+      margin:100px 0 0 100px;
+      height:100px;
+      width: 100px;
+      padding: 5px;
+      background-color: tomato;
+      line-height: 100px;
+      color: white;
+      font-size: 30px;
+      font-family: monospace;
+  
+      transition-property: transform,background-color;
+      transition-duration:1s,1s;
+  
+      transition-timing-function:ease-in;
+    }
+    
+    div.box:hover{
+      background-color:blue;
+      color:black;
+      transform:rotate(30deg) scale(2,2);
+      transition-duration : 1s,1s;
+   
+transition-timing-function :ease-out;
+
+animation: move 0.5s ease-out 1s 1s ;
+}
+
+
+@keyframes move{
+    from,to  {transform: translate(0,0);}
+    33% { transform: translate(1.5,1.5);}
+    66% { transform: translate(0.5,-.5);}
+    
+}  
+
+@keyframes color {
+    from, to { background-color: #333;}
+    50% { background-color: blue;}
+    90% { background-color: crimson;}
+}
+    
+    
+  </style>
