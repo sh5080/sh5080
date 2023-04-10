@@ -1,24 +1,20 @@
 const fs = require("fs");
-let my_string = fs.readFileSync("./input.txt").toString().trim().replace(/["]/g,"")
-
-let str = my_string.split(' ')
-let result = Number(str[0])
-for(let i = 0; i < str.length; i++){
-    if(str[i]==='+'){
-        result = result+Number(str[i+1])
-    }if(str[i]==='-'){
-        result = result-Number(str[i+1])
+let input = fs.readFileSync("./input.txt").toString().trim()
+let num = input.replace('\n',' ').split(' ').map(Number)
+let N = num[0]
+let M = num[1]
+let K = num[2]
+let data = num.slice(3).sort((a,b)=>a-b)
+let first = data[data.length-1]
+let second = data[data.length-2]
+let result = 0;
+let count = 0;
+    for(let i = 1; i<=M; i++){
+        if(i%K !== 0){
+            result += first
+        }else {
+            result += second
+        }
     }
-}
 
-console.log(my_string)
-console.log(str)
 console.log(result)
-
-/*
-    for(let i = 0; i < my_string.length; i++){
-        if(my_string.includes('+')){
-            console.log (Number(str[0])+Number(str[1]))
-        }else console.log (Number(str[0])-Number(str[1]))
-    }
-    */
