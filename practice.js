@@ -9,8 +9,6 @@ let d = dots[3]
 
 
 if((a[0]-b[0])/(a[1]-b[1]) === (c[0]-d[0])/(c[1]-d[1])){
-    console.log(2)
-}else if(a===b && c===d){
     console.log(1)
 }
 else console.log(0)
