@@ -8,7 +8,6 @@ let data = num.slice(3).sort((a,b)=>a-b)
 let first = data[data.length-1]
 let second = data[data.length-2]
 let result = 0;
-let count = 0;
     for(let i = 1; i<=M; i++){
         if(i%K !== 0){
             result += first
