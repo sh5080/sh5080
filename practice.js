@@ -1,19 +1,16 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim()
-let num = input.replace('\n',' ').split(' ').map(Number)
-let N = num[0]
-let M = num[1]
-let K = num[2]
-let data = num.slice(3).sort((a,b)=>a-b)
-let first = data[data.length-1]
-let second = data[data.length-2]
-let result = 0;
-    for(let i = 1; i<=M; i++){
-        if(i%K !== 0){
-            result += first
-        }else {
-            result += second
-        }
-    }
+//let input = fs.readFileSync("./input.txt").toString().trim()
+let dots = [[1, 0], [0, 1], [1, 2], [2, 1]]
+dots.sort((a,b)=>a[0]-b[0])
+let a = dots[0]
+let b = dots[1]
+let c = dots[2]
+let d = dots[3]
 
-console.log(result)
+
+if((a[0]-b[0])/(a[1]-b[1]) === (c[0]-d[0])/(c[1]-d[1])){
+    console.log(2)
+}else if(a===b && c===d){
+    console.log(1)
+}
+else console.log(0)
