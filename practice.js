@@ -1,14 +1,19 @@
 const fs = require("fs");
-//let input = fs.readFileSync("./input.txt").toString().trim()
-let dots = [[1, 0], [0, 1], [1, 2], [2, 1]]
-dots.sort((a,b)=>a[0]-b[0])
-let a = dots[0]
-let b = dots[1]
-let c = dots[2]
-let d = dots[3]
+let lines = fs.readFileSync("./input.txt").toString().trim()
 
-
-if((a[0]-b[0])/(a[1]-b[1]) === (c[0]-d[0])/(c[1]-d[1])){
-    console.log(1)
-}
-else console.log(0)
+    let lineNum = []
+    let crossNum = []
+   for(let i = 0; i < lines.length; i++){
+       for(let j = lines[i][0]; j<= lines[i][1]; j++){
+           lineNum.push(j)
+           console.log(lineNum)
+       }
+   }lineNum.sort((a,b)=>a-b)
+    for(let i = 0; i < lineNum.length;i++){
+        if(lineNum[i]===lineNum[i+1]){
+            crossNum.push(lineNum[i])
+            
+        }
+    }//console.log(lines)
+    // if(crossNum.length<3) console.log(0)
+    // else console.log (crossNum[crossNum.length-1]-crossNum[0])
