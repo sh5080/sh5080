@@ -13,6 +13,7 @@ let lines = fs.readFileSync("./input.txt").toString().trim()
         if(lineNum[i]===lineNum[i+1]){
             crossNum.push(lineNum[i])
             
+            
         }
     }//console.log(lines)
     // if(crossNum.length<3) console.log(0)
