@@ -1,9 +1,16 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split('\n')
-let answer = ''
-for(let i = 1; i<input.length; i++){
-let num = input[i].split(' ')
-answer+=(Number(num[0])+Number(num[1])+'\n')
+let num = [-3,33,13,1]
+
+let numI = 0
+
+for(let i = 0; i < num.length; i++){
+    numI+=num[i]
+    if(numI<0){
+    numI-=num[i]
 }
-console.log(answer)
+
+}
+
+console.log(numI)
 
