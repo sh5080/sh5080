@@ -1,18 +1,11 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split('\n')
 
-let N = 5
-let count = 0
-let t = ''
-for(let i = 0; i <= N; i++){
-    for(let j = 0; j<60; j++){
-        for(let k = 0; k < 60; k++){
-            if((String(i)+String(j)+String(k)).includes('3')){
-                count++
-            }
-        }
-    }
+let N = '02984'
+let answer = 1
+for(let i = 0; i < N.length; i ++){
+    if(N[i]<2){
+        answer+=Number(N[i])
+    }else answer*=N[i]
 }
-
-console.log(count)
-
+console.log(answer)
