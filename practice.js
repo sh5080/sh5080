@@ -1,12 +1,17 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim()
-let abc = 'abcdefghijklmnopqrstuvwxyz'
-let result = ''
-for(let i = 0; i < abc.length; i++){
-  if(input.includes(abc[i])){
-    result+=input.indexOf(abc[i])+' '
-  }else result+=(-1)+' '
+let input = fs.readFileSync("./input.txt").toString().trim().split('\n')
+
+for(let i = 1; i <= input[0]; i++){
+  let answer = ''
+  let [splitStr,str] = input[i].split(' ')
+  for(let j = 0; j < str.length; j++){
+    answer+=str[j].repeat(splitStr)
+  }
+console.log(answer)
 }
 
-console.log(result.trim())
 
+
+
+// AAABBBCCC
+// /////HHHHHTTTTTPPPPP
