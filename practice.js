@@ -1,20 +1,19 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim()
 
-let a = 1
-let b = 1
-let answer = '';
-let day = ['THU','FRI','SAT','SUN','MON','TUE','WED']
-let month = [0,0,31,29,31,30,31,30,31,31,30,31,30]
-let date = b
-for(let i = 0; i <= a; i++){
-    date += month[i]
-}
+let arr = [293, 1000, 395, 678, 94];
+let delete_list = [94, 777, 104, 1000, 1, 12];
 
-let result = date%7
-answer=day[result]
+let result = arr.filter((a) => 
+!delete_list.includes(a));
 
-console.log(answer)
+console.log(result);
+
+
+
+
+
+
 
 
 
