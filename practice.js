@@ -1,14 +1,12 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim()
+let input = fs.readFileSync("./input.txt").toString().trim().split(' ').map(Number)
+let chess = [1,1,2,2,2,8]
 
-let str = input.split('')
+let answer = chess.map((a,b)=>{
+  return a-input[b]
+})
 
-if(str[0]===''){
-  str.unshift()
-}
-input = str.join('')
-
-console.log(input)
+console.log(...answer)
 
 
 
