@@ -1,15 +1,17 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim()
 
-let arr = [293, 1000, 395, 678, 94];
-let delete_list = [94, 777, 104, 1000, 1, 12];
+let a = ["problemsolving", "practiceguitar", "swim", "studygraph"]
+let b = [true, false, true, false]
 
-let result = arr.filter((a) => 
-!delete_list.includes(a));
+let answer = [];
+for(let i = 0; i < a.length; i++){
+  if(b[i]===false){
+    answer.push(a[i])
+  }  
+}
 
-console.log(result);
-
-
+console.log(answer)
 
 
 
