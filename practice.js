@@ -1,10 +1,17 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim()
-let answer = 1
-for(let i = 0; i < Math.floor(input.length/2); i++){
-  if(input[i]!==input[input.length-1-i]){
-    answer = 0
-  }
-}
+let str = input.toUpperCase()
 
-console.log(answer)
+let words = new Object()
+for(let i = 0; i < str.length; i++){
+  if(words[str[i]]===undefined){
+    words[str[i]] = 1
+  }else words[str[i]]+=1
+
+}
+let wordsArr = Object.entries(words).sort((a,b)=>b[1]-a[1])
+wordsArr.length===1 ? console.log(wordsArr[0][0])
+:wordsArr[0][1]===wordsArr[1][1] 
+? console.log('?')
+: console.log(wordsArr[0][0])
+
