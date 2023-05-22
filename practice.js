@@ -1,16 +1,21 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim().split('\n')
+let input = fs.readFileSync("./input.txt").toString().trim()
+
+let cro = ['c=','c-','dz=','d-','lj','nj','s=','z=']
+let result = []
+
+for(let i = 0; i < input.length; i++){
+for(let j = 0; j < cro.length; j++){
+
+  if(input[i]+input[i+1]===cro[j]){
+    result.push(input[i]+input[i+1])
+  }else if(input[i]+input[i+1]+input[i+2]===cro[j]){
+    result.push(input[i]+input[i+1]+input[i+2])
+  }
+} 
+  }
+  console.log(input.length-result.length)
 
 
-for(let i = 1; i < input.length; i++){
-let splited = input[i].split(' ').map(Number)
-let len = splited.shift()
-let avr = 0
-avr = splited.reduce((a,b)=>a+b) / len
 
-let num = splited.filter((a)=>
-  a>avr
- )
- let answer = num.length/len*100
-console.log(answer.toFixed(3)+'%')
-}
+
