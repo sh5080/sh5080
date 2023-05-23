@@ -1,20 +1,21 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim()
-
-let cro = ['c=','c-','dz=','d-','lj','nj','s=','z=']
-let result = []
-
+let input = fs.readFileSync("./input.txt").toString().trim().split('\n');
+let mypoint = 0
+let mygrade = ''
+let result = 0
+let gradeToPoint = [4.5,4.0,3.5,3.0,2.5,2.0,1.5,1.0,0.0]
+let grade = ['A+','A0','B+','B0','C+','C0','D+','D0','F']
+let wholePoint = 0
 for(let i = 0; i < input.length; i++){
-for(let j = 0; j < cro.length; j++){
-
-  if(input[i]+input[i+1]===cro[j]){
-    result.push(input[i]+input[i+1])
-  }else if(input[i]+input[i+1]+input[i+2]===cro[j]){
-    result.push(input[i]+input[i+1]+input[i+2])
-  }
-} 
-  }
-  console.log(input.length-result.length)
+  let splited = input[i].split(' ')
+  mypoint = Number(splited[1])
+  mygrade = splited[2]
+if(mygrade!=='P'){
+result+=mypoint*(gradeToPoint[grade.indexOf(mygrade)])
+wholePoint+= mypoint
+}
+}
+console.log(result/wholePoint)
 
 
 
