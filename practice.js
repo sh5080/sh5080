@@ -1,22 +1,26 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split('\n');
-let result = []
-let arr = []
-let X = 0
-let Y = 0
-for(let i = 0; i < input.length; i++){
-  let row = input[i].split(' ').map(Number)
-  let max = row.reduce((a,b)=>Math.max(a,b))
-  arr.push(row)
-  result.push(max)
-}
-let max = result.reduce((a,b)=>Math.max(a,b))
-for(let i = 0; i < arr.length; i++){
-  arr[i].indexOf(max) > -1 ? X = i : 0 //arr[i].indexOf(max)+1 : 0
-}
-console.log(max)
 
-Y = arr[X].indexOf(max)
-console.log(X+1,Y+1)
+
+function binary_search(list,item){
+let low = 0
+let high = list.length-1
+
+
+while(low<= high){
+  let mid = Math.floor((low + high)/2)
+  let guess = list[mid]
+  if(guess < item){
+    low = mid + 1
+  }if( guess === item){
+    return mid
+  }if ( guess > item){
+    high = mid - 1
+  }else {
+    low = mid+1
+  }
+}
+}
+console.log(binary_search([1,3,5,7,9],7)) //3
 
 
