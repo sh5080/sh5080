@@ -2,14 +2,14 @@ const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split('\n');
 
 
-function binary_search(list,item){
+function binary_search(arr,item){
 let low = 0
-let high = list.length-1
+let high = arr.length-1
 
 
 while(low<= high){
   let mid = Math.floor((low + high)/2)
-  let guess = list[mid]
+  let guess = arr[mid]
   if(guess < item){
     low = mid + 1
   }if( guess === item){
