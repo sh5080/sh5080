@@ -1,19 +1,19 @@
-const mysql = require('mysql');
+import mysql from 'mysql';
+import dotenv from 'dotenv';
 
-// MySQL 연결 설정
+dotenv.config();
+
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_username',
-  password: 'your_password',
-  database: 'your_database',
+  host: '127.0.0.1',
+  user: 'sh5080',
+  password: process.env.DB_PASSWORD,
+  database: 'topic',
 });
 
-// MySQL 연결
 connection.connect((err) => {
   if (err) {
     console.error('MySQL connection error:', err);
   } else {
     console.log('Connected to MySQL');
-    // 여기에 필요한 데이터베이스 작업을 수행합니다.
   }
 });
