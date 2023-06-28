@@ -1,22 +1,22 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split('\n');
 
-function solution(cards1, cards2, goal) {
 
-let num1 = cards1.map((a)=>goal.indexOf(a))
-let num2 = cards2.map((a)=>goal.indexOf(a))
+function solution(myString) {
+let abc = '0abcdefghijklmnopqrstuvwxyz'
+    let answer = myString.split('x')
+answer.filter((a)=>{
+    a !== ''
+})
 
-let sorted1 = [...num1].sort((a,b)=>a-b) 
-let sorted2 = [...num2].sort((a,b)=>a-b)
-
-let isEqual1 = num1.every((value, index) => value === sorted1[index]);
-let isEqual2 = num2.every((value, index) => value === sorted2[index]);
-
-
-return isEqual1 && isEqual2
-?  "Yes" : "No"
-
-
-
-}console.log(solution(["i", "drink", "water"],["want", "to"],["i", "want", "to", "drink", "water"]))
-
+    for(let i = 0; i < answer.length-1; i++){
+        for(let j = 0; j < answer[i].length-1; j++){
+            answer.sort((a,b)=>abc.indexOf(a[j])-abc.indexOf(b[j]))
+        }
+    }
+// answer.sort((a,b)=>abc.indexOf(a[0])-abc.indexOf(b[0]))
+    
+    return answer
+}
+console.log(solution("xxxxxdxccxbbbxaaaxaxx"))
+// console.log(solution('1x22x333x4444x'))
