@@ -1,22 +1,21 @@
 const fs = require("fs");
-let input = fs.readFileSync("./input.txt").toString().trim().split('\n');
-
+let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 function solution(myString) {
-let abc = '0abcdefghijklmnopqrstuvwxyz'
-    let answer = myString.split('x')
-answer.filter((a)=>{
-    a !== ''
-})
-
-    for(let i = 0; i < answer.length-1; i++){
-        for(let j = 0; j < answer[i].length-1; j++){
-            answer.sort((a,b)=>abc.indexOf(a[j])-abc.indexOf(b[j]))
-        }
+  let abc = "0abcdefghijklmnopqrstuvwxyz";
+  let answer = myString.split("x");
+  let result = [];
+  answer.push("x");
+  for (let i = 0; i < answer.length - 1; i++) {
+    if (answer[i] !== "") {
+      result.push(answer[i]);
     }
-// answer.sort((a,b)=>abc.indexOf(a[0])-abc.indexOf(b[0]))
-    
-    return answer
+  }
+
+  return result.sort();
 }
-console.log(solution("xxxxxdxccxbbbxaaaxaxx"))
-// console.log(solution('1x22x333x4444x'))
+
+console.log('1:',solution("axbxcxdx"));
+console.log('2:',solution("dxccxbbbxaaaa"));
+console.log('3:',solution("axbbxbxxxbbbbxxxxxcccc"));
+console.log('4:',solution("axbbxbxxxbbbbxxxxxccccxbb"));
