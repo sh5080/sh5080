@@ -1,20 +1,17 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
-
-function solution(arr, queries) {
-    for(let i = 0; i < queries.length; i++){
-        const [s,e] = queries[i]
-        for(let j = s; j <= e; j++){
-            arr[j] += 1
-        }
+function solution(my_string, indices) {
+    let splited = my_string.split('')
+            for(let j = 0; j < indices.length; j++){
+                (splited[indices[j]]) = '*'
+            }
+    splited = splited.join('')
+    let answer = splited.replaceAll('*','')
+        return answer;
     }
- 
-    
-    return arr
-}
 
 
-console.log('1:',solution([0,1,2,3,4], [[0,1],[1,2],[2,3]]));
+console.log('1:',solution("apporoograpemmemprs", [1, 16, 6, 15, 0, 10, 11, 3]));
 
 // console.log('2:',solution("dxccxbbbxaaaa"));
 // console.log('3:',solution("axbbxbxxxbbbbxxxxxcccc"));
