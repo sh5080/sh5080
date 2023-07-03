@@ -1,16 +1,25 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(my_string, m, c) {
-    let arr = [];
-    for(let i = 0; i < my_string.length; i+=m){
-        arr.push(my_string.slice(i,i+m))
+function solution(arr, flag) {
+let answer = []
+for(let i = 0; i < arr.length; i++){
+    if(flag[i]){
+        answer.push(...Array(arr[i] * 2).fill(arr[i]));
+        console.log('@:',answer)
     }
-    let answer = arr.map((a)=>a[c-1]).join('')
-    return answer;
+
+    else {
+        answer.splice(-arr[i])
+    }
 }
 
-console.log('1:',solution("ihrhbakrfpndopljhygc",4,2));
+return answer
+}
+
+console.log("1:", solution(
+    [3, 2, 4, 1, 3],[true, false, true, false, false]
+    ));
 
 // console.log('2:',solution("dxccxbbbxaaaa"));
 // console.log('3:',solution("axbbxbxxxbbbbxxxxxcccc"));
