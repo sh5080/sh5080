@@ -1,19 +1,16 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(board, k) {
-    let answer = 0
-for(let i = 0; i < board.length; i++){
-    for(let j = 0; j < board[i].length; j++){
-        if(i + j <= k){
-            answer+=(board[i][j])
-        }
+function solution(my_string, m, c) {
+    let arr = [];
+    for(let i = 0; i < my_string.length; i+=m){
+        arr.push(my_string.slice(i,i+m))
     }
-}
+    let answer = arr.map((a)=>a[c-1]).join('')
     return answer;
 }
 
-console.log('1:',solution([[0, 1, 2],[1, 2, 3],[2, 3, 4],[3, 4, 5]], 2));
+console.log('1:',solution("ihrhbakrfpndopljhygc",4,2));
 
 // console.log('2:',solution("dxccxbbbxaaaa"));
 // console.log('3:',solution("axbbxbxxxbbbbxxxxxcccc"));
