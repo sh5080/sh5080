@@ -1,10 +1,17 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(x1, x2, x3, x4) {
-  const result = (x1 || x2) && (x3 || x4);
-  return result;
+function solution(my_string, s, e) {
+  let front = "";
+  let mid = "";
+  let back = "";
+  front += my_string.slice(0, s);
+  for (let i = e; i >= s; i--) {
+    mid += my_string[i];
+  }
+  for (let i = e + 1; i < my_string.length; i++) {
+    back += my_string[i];
+  }
+  return front + mid + back;
 }
-
-console.log("answer1:", solution("false", "true", "true", "true"));
-console.log("answer2:", solution("true", "false", "false", "false"));
+console.log("answer1:", solution("Progra21Sremm3", 6, 12));
