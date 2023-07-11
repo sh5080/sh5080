@@ -1,43 +1,111 @@
 import express from 'express';
 import session from 'express-session';
+import cors from 'cors';
+import sessionRoutes from './sessionRouter.js';
+import tokenRoutes from './tokenRouter.js';
+import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
+import MySQLStore from 'express-mysql-session';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+// env
+dotenv.config();
+const port = process.env.PORT || 3000;
+export const key = process.env.KEY;
 
-// session 설정
-app.use(
-  session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-// 미들웨어 및 라우터 설정
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-//로그인
-app.post('/login', (req, res) => {
-  // 사용자 인증 로직 구현
-  const { username, password } = req.body;
-
-  //     사용자 인증 성공
-  if (username === 'admin' && password === 'password') {
-    req.session.authenticated = true; // 세션에 인증 정보 저장
-    req.session.user = { username }; // 세션에 사용자 정보 저장
-    res.send('Login successful');
-  } else {
-    res.send('Login failed');
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+//db 연결
+export let db;
+export const dbLoader = async () => {
+  if (db) {
+    return db;
   }
-});
+  try {
+    db = await mysql.createPool({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
+      waitForConnections: true,
+      connectionLimit: 10,
+    });
+    console.log('Cloud SQL server connection successful');
+    return db;
+  } catch (error) {
+    console.error('Failed to establish connection to the Cloud SQL server:', error);
+    throw error;
+  }
+};
+async function startServer() {
+  try {
+    await dbLoader();
 
-// 로그아웃
-app.get('/logout', (req, res) => {
-  req.session.destroy(); // 세션 제거
-  res.send('Logged out successfully');
-});
+    // session 설정
+    app.use(cookieParser());
+    const sessionStore = new MySQLStore({
+      createDatabaseTable: true,
+      schema: {
+        tableName: 'sessions',
+        columnNames: {
+          session_id: 'session_id',
+          data: 'data',
+          expires: 'expires',
+        },
+      },
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
+    });
 
-// 서버 시작
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
+    const now = new Date();
+    const koreanTime = 9 * 60 * 60 * 1000;
+    const koreanNow = new Date(now.getTime() + koreanTime);
+    const expires = new Date(koreanNow.getTime() + 24 * 60 * 60 * 1000);
+    app.use(
+      session({
+        name: 'sessionID',
+        secret: key,
+        resave: false,
+        saveUninitialized: false,
+        store: sessionStore,
+        cookie: {
+          // 쿠키의 만료 시간을 설정합니다.
+          // 예: 24시간 (밀리초 단위)
+          expires: expires,
+
+          // 쿠키의 최대 수명을 설정합니다.
+          // 예: 24시간 (초 단위)
+          maxAge: 24 * 60 * 60,
+          httpOnly: true,
+        },
+      })
+    );
+    // 미들웨어 및 라우터 설정
+
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(
+      cors({
+        origin: 'http://localhost:5500',
+        methods: ['GET', 'POST', 'OPTIONS'],
+        credentials: true,
+      })
+    );
+
+    // 라우터 연결
+
+    app.use('/session', sessionRoutes);
+    app.use('/token', tokenRoutes);
+    app.set(db);
+
+    // 서버 시작
+    app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Failed to start the server:', error);
+  }
+}
+startServer();

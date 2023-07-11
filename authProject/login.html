@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: #1BBC9B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            position: fixed;
+            top: 50px;
+            left: 150px;
+            width: 100%;
+            z-index: 9999;
+        }
+
+        .login-container {
+            width: 300px;
+            background-color: #EEEFF1;
+            border-radius: 5px;
+            text-align: center;
+            padding: 30px;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: fit-content;
+        }
+
+        .login-container input {
+            width: 90%;
+            padding: 15px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .login-container .in {
+            margin-bottom: 10px;
+        }
+
+        .login-container .login-button {
+            background-color: #1BBC9B;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .login-container a {
+            text-decoration: none;
+            color: #9B9B9B;
+            font-size: 12px;
+        }
+
+        .big-container {
+            background-color: #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            gap: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            position:static;
+            bottom: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 3px solid #ddd;
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="big-container">
+            <div class="login-container">
+                <h2 class="login-title">세션 로그인</h2>
+                <form id="session" action="/session" method="post">
+                    <input type="text" name="username" placeholder="아이디" class="in">
+                    <input type="password" name="password" placeholder="비밀번호" class="in">
+                    <input type="submit" id="sessionLoginButton" class="login-button" value="로그인">
+                </form>
+                <div class="message-container">
+                    <div id="sessionLoginMessage"></div>
+                    <button id="checkSessionButton">세션 검증</button>
+                </div>
+            </div>
+            <div class="login-container">
+                <h2 class="login-title">토큰 로그인</h2>
+                <form id="token" action="/token" method="post">
+                    <input type="text" name="username" placeholder="아이디" class="in">
+                    <input type="password" name="password" placeholder="비밀번호" class="in">
+                    <input type="submit" id="tokenLoginButton" class="login-button" value="로그인">
+                </form>
+            </div>
+            
+
+            <table id="sessionDataTable">
+                
+                <tr>
+                    <th>Session ID</th>
+                    <th>Data</th>
+                    <th>Expires</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="data-container">
+            <!-- <h2>세션 데이터</h2>
+            <table id="sessionDataTable">
+                <tr>
+                    <th>Session ID</th>
+                    <th>Data</th>
+                    <th>Expires</th>
+                </tr>
+            </table> -->
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+document.getElementById("session").addEventListener("submit", function (event) {
+  event.preventDefault(); // 폼 기본 동작 중단
+  const form = event.target;
+  const formData = new FormData(form);
+
+  axios.post('http://localhost:4000/session/login', {
+    username: formData.get('username'),
+    password: formData.get('password')
+  }, { withCredentials: true })
+    .then(function (response) {
+      console.log(response.data);
+      // 로그인 성공 처리
+      const loginMessage = document.getElementById('sessionLoginMessage');
+      loginMessage.textContent = ''; // 기존 메시지 비우기
+      loginMessage.textContent = '로그인에 성공했습니다.'; // 성공 메시지 설정
+      const loginButton = document.getElementById('sessionLoginButton');
+      loginButton.value = '로그아웃';
+      // 입력 칸들 숨김 처리
+    //   const inputContainer = document.querySelector('.login-container input');
+    //   inputContainer.style.display = 'none';
+      const usernameInput = document.querySelector('input[name="username"]');
+      const passwordInput = document.querySelector('input[name="password"]');
+      usernameInput.style.display = 'none';
+      passwordInput.style.display = 'none';
+
+      const welcomeMessage = document.createElement('p');
+      welcomeMessage.textContent = `${response.data}`;
+      form.insertAdjacentElement('afterend', welcomeMessage);
+
+      const checkSessionButton = document.getElementById('checkSessionButton');
+      createLogoutButton('session');
+    })
+    .catch(function (error) {
+      console.error(error);
+      // 로그인 실패 처리
+      const loginMessage = document.getElementById('sessionLoginMessage');
+      loginMessage.textContent = error.response.data;
+    });
+});
+
+function createLogoutButton(containerId) {
+  const container = document.getElementById(containerId);
+  let logoutButton = container.querySelector(`#${containerId} .login-button`);
+  if (!logoutButton) {
+    logoutButton = document.createElement('input');
+    logoutButton.type = 'button';
+    logoutButton.value = '로그아웃';
+    logoutButton.classList.add('login-button');
+    container.appendChild(logoutButton);
+  }
+  logoutButton.addEventListener('click', function (event) {
+    event.preventDefault(); // 버튼 클릭 시 기본 동작 중단
+
+    axios
+      .get(`http://localhost:4000/${containerId}/logout`, { withCredentials: true })
+      .then(function (response) {
+        console.log(response.data);
+        // 로그아웃 성공 처리
+        const loginButton = document.getElementById(`${containerId}Button`);
+        // loginButton.value = '로그인';
+        window.location.href = '/login.html'; // 로그아웃 후 홈페이지로 리다이렉트
+      })
+      .catch(function (error) {
+        console.error(error);
+        // 로그아웃 실패 처리
+      })
+      .finally(function () {
+        logoutButton.remove(); // 로그아웃 버튼 제거
+      });
+  });
+
+  container.appendChild(logoutButton);
+}
+
+
+
+        document.getElementById("token").addEventListener("submit", function (event) {
+            event.preventDefault(); // 폼 기본 동작 중단
+            const form = event.target;
+            const formData = new FormData(form);
+
+            axios.post('http://localhost:4000/token/login', {
+                    username: formData.get('username'),
+                    password: formData.get('password')
+                })
+                .then(function (response) {
+                    console.log(response.data);
+                    // 로그인 성공 처리
+                    const loginMessage = document.getElementById('tokenLoginMessage');
+                    loginMessage.textContent = response.data.message;
+
+                    // 토큰 저장 및 활용
+                    const token = response.data.token;
+
+                    const loginButton = document.getElementById('tokenLoginButton');
+                    loginButton.value = '로그아웃';
+
+                    createLogoutButton('token');
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    // 로그인 실패 처리
+                    const loginMessage = document.getElementById('tokenLoginMessage');
+                    loginMessage.textContent = error.response.data;
+
+                });
+        });
+
+      const checkSessionButton = document.getElementById('checkSessionButton');
+      checkSessionButton.addEventListener('click', function() {
+        axios.get('http://localhost:4000/session/check', { withCredentials: true })
+          .then(function(response) {
+            const loggedIn = response;
+            console.log('logged',loggedIn)
+            if (loggedIn) {
+              alert(response.data);
+            } 
+            else {
+              alert('로그인이 필요합니다.');
+            }
+          })
+          .catch(function(error) {
+            console.error(error);
+            alert(error.response.data)
+          });
+      });
+         // 세션 데이터 가져와서 테이블에 추가하기
+         axios.get('http://localhost:4000/session/data', { withCredentials: true })
+            .then(function(response) {
+                const sessions = response.data;
+                
+                const table = document.getElementById('sessionDataTable');
+
+                sessions.forEach(session => {
+                    const row = document.createElement('tr');
+
+                    const sessionIdCell = document.createElement('td');
+                    sessionIdCell.textContent = session.session_id;
+                    row.appendChild(sessionIdCell);
+
+                    const dataCell = document.createElement('td');
+                    dataCell.textContent = session.data;
+                    row.appendChild(dataCell);
+
+                    const expiresCell = document.createElement('td');
+                    expiresCell.textContent = session.expires;
+                    row.appendChild(expiresCell);
+
+                    table.appendChild(row);
+                });
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+    </script>
+</body>
+
+</html>
