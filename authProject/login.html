@@ -19,6 +19,7 @@
             height: 100vh;
             margin: 0;
         }
+
         .container {
             display: flex;
             justify-content: center;
@@ -81,11 +82,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            position:static;
+            position: static;
             bottom: 10px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 8px;
             text-align: left;
             border: 3px solid #ddd;
@@ -95,7 +97,6 @@
         th {
             background-color: #f2f2f2;
         }
-
     </style>
 
 </head>
@@ -122,11 +123,14 @@
                     <input type="password" name="password" placeholder="비밀번호" class="in">
                     <input type="submit" id="tokenLoginButton" class="login-button" value="로그인">
                 </form>
+                <div class="message-container">
+                    <div id="tokenLoginMessage"></div>
+                </div>
             </div>
-            
+
 
             <table id="sessionDataTable">
-                
+
                 <tr>
                     <th>Session ID</th>
                     <th>Data</th>
@@ -138,14 +142,6 @@
 
     <div class="container">
         <div class="data-container">
-            <!-- <h2>세션 데이터</h2>
-            <table id="sessionDataTable">
-                <tr>
-                    <th>Session ID</th>
-                    <th>Data</th>
-                    <th>Expires</th>
-                </tr>
-            </table> -->
         </div>
     </div>
 </body>
@@ -154,163 +150,257 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-document.getElementById("session").addEventListener("submit", function (event) {
-  event.preventDefault(); // 폼 기본 동작 중단
-  const form = event.target;
-  const formData = new FormData(form);
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById("session").addEventListener("submit", function (event) {
+        event.preventDefault(); // 폼 기본 동작 중단
+        const form = event.target;
+        const formData = new FormData(form);
 
-  axios.post('http://localhost:4000/session/login', {
-    username: formData.get('username'),
-    password: formData.get('password')
-  }, { withCredentials: true })
-    .then(function (response) {
-      console.log(response.data);
-      // 로그인 성공 처리
-      const loginMessage = document.getElementById('sessionLoginMessage');
-      loginMessage.textContent = ''; // 기존 메시지 비우기
-      loginMessage.textContent = '로그인에 성공했습니다.'; // 성공 메시지 설정
-      const loginButton = document.getElementById('sessionLoginButton');
-      loginButton.value = '로그아웃';
-      // 입력 칸들 숨김 처리
-    //   const inputContainer = document.querySelector('.login-container input');
-    //   inputContainer.style.display = 'none';
-      const usernameInput = document.querySelector('input[name="username"]');
-      const passwordInput = document.querySelector('input[name="password"]');
-      usernameInput.style.display = 'none';
-      passwordInput.style.display = 'none';
+        axios.post('http://localhost:4000/session/login', {
+            username: formData.get('username'),
+            password: formData.get('password')
+        }, { withCredentials: true })
+            .then(function (response) {
+                console.log(response.data);
+                // 로그인 성공 처리
+                const loginMessage = document.getElementById('sessionLoginMessage');
+                loginMessage.textContent = ''; // 기존 메시지 비우기
+                loginMessage.textContent = '로그인에 성공했습니다.'; // 성공 메시지 설정
+                const loginButton = document.getElementById('sessionLoginButton');
+                loginButton.value = '로그아웃';
+                // 입력 칸들 숨김 처리
 
-      const welcomeMessage = document.createElement('p');
-      welcomeMessage.textContent = `${response.data}`;
-      form.insertAdjacentElement('afterend', welcomeMessage);
+                const usernameInput = document.querySelector('input[name="username"]');
+                const passwordInput = document.querySelector('input[name="password"]');
+                usernameInput.style.display = 'none';
+                passwordInput.style.display = 'none';
 
-      const checkSessionButton = document.getElementById('checkSessionButton');
-      createLogoutButton('session');
-    })
-    .catch(function (error) {
-      console.error(error);
-      // 로그인 실패 처리
-      const loginMessage = document.getElementById('sessionLoginMessage');
-      loginMessage.textContent = error.response.data;
+                const welcomeMessage = document.createElement('p');
+                welcomeMessage.textContent = `${response.data}`;
+
+                const checkSessionButton = document.getElementById('checkSessionButton');
+                createLogoutButton('session');
+                //sessionData 가져오기
+                axios.get('http://localhost:4000/session/data', { withCredentials: true })
+                    .then(function (response) {
+                        const sessions = response.data;
+
+                        const table = document.getElementById('sessionDataTable');
+
+                        sessions.forEach(session => {
+                            const row = document.createElement('tr');
+
+                            const sessionIdCell = document.createElement('td');
+                            sessionIdCell.textContent = session.session_id;
+                            row.appendChild(sessionIdCell);
+
+                            const dataCell = document.createElement('td');
+                            dataCell.textContent = session.data;
+                            row.appendChild(dataCell);
+
+                            const expiresCell = document.createElement('td');
+                            expiresCell.textContent = session.expires;
+                            row.appendChild(expiresCell);
+
+                            table.appendChild(row);
+                        });
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            })
+            .catch(function (error) {
+                console.error(error);
+                // 로그인 실패 처리
+                const loginMessage = document.getElementById('sessionLoginMessage');
+                loginMessage.textContent = error.response.data;
+            });
     });
-});
-
-function createLogoutButton(containerId) {
-  const container = document.getElementById(containerId);
-  let logoutButton = container.querySelector(`#${containerId} .login-button`);
-  if (!logoutButton) {
-    logoutButton = document.createElement('input');
-    logoutButton.type = 'button';
-    logoutButton.value = '로그아웃';
-    logoutButton.classList.add('login-button');
-    container.appendChild(logoutButton);
-  }
-  logoutButton.addEventListener('click', function (event) {
-    event.preventDefault(); // 버튼 클릭 시 기본 동작 중단
-
-    axios
-      .get(`http://localhost:4000/${containerId}/logout`, { withCredentials: true })
-      .then(function (response) {
-        console.log(response.data);
-        // 로그아웃 성공 처리
-        const loginButton = document.getElementById(`${containerId}Button`);
-        // loginButton.value = '로그인';
-        window.location.href = '/login.html'; // 로그아웃 후 홈페이지로 리다이렉트
-      })
-      .catch(function (error) {
-        console.error(error);
-        // 로그아웃 실패 처리
-      })
-      .finally(function () {
-        logoutButton.remove(); // 로그아웃 버튼 제거
-      });
-  });
-
-  container.appendChild(logoutButton);
-}
 
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // 첫 페이지 로딩 시 세션 상태 확인
+        checkSession();
+    });
+    function createLogoutButton(containerId) {
+        const container = document.getElementById(containerId);
+        let logoutButton = container.querySelector(`#${containerId} .login-button`);
+        if (!logoutButton) {
+            logoutButton = document.createElement('input');
+            logoutButton.type = 'button';
+            logoutButton.value = '로그아웃';
+            logoutButton.classList.add('login-button');
+            container.appendChild(logoutButton);
+        }
 
-        document.getElementById("token").addEventListener("submit", function (event) {
-            event.preventDefault(); // 폼 기본 동작 중단
-            const form = event.target;
-            const formData = new FormData(form);
-
-            axios.post('http://localhost:4000/token/login', {
-                    username: formData.get('username'),
-                    password: formData.get('password')
-                })
+        logoutButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            axios
+                .get('http://localhost:4000/session/logout', { withCredentials: true })
                 .then(function (response) {
                     console.log(response.data);
-                    // 로그인 성공 처리
-                    const loginMessage = document.getElementById('tokenLoginMessage');
-                    loginMessage.textContent = response.data.message;
-
-                    // 토큰 저장 및 활용
-                    const token = response.data.token;
-
-                    const loginButton = document.getElementById('tokenLoginButton');
-                    loginButton.value = '로그아웃';
-
-                    createLogoutButton('token');
+                    // 로그아웃 성공 처리
+                    const loginButton = document.getElementById('sessionLoginButton');
+                    loginButton.value = '로그인';
+                    console.log('여기1')
+                    window.location.href = '/login.html'; // 로그아웃 후 홈페이지로 리다이렉트
                 })
                 .catch(function (error) {
                     console.error(error);
-                    // 로그인 실패 처리
-                    const loginMessage = document.getElementById('tokenLoginMessage');
-                    loginMessage.textContent = error.response.data;
+                    // 로그아웃 실패 처리
+                });
+        })
+        container.appendChild(logoutButton);
+    }
+
+    // 로그인 성공 처리 함수
+    function handleLoginSuccess(data) {
+        const loginMessage = document.getElementById('sessionLoginMessage');
+        loginMessage.textContent = ''; // 기존 메시지 비우기
+        loginMessage.textContent = '로그인에 성공했습니다.'; // 성공 메시지 설정
+        const loginButton = document.getElementById('sessionLoginButton');
+        loginButton.value = '로그아웃';
+    }
+    // 세션 유지 상태 확인 함수
+    function checkSession() {
+        function handleLogout() {
+            axios
+                .get('http://localhost:4000/session/logout', { withCredentials: true })
+                .then(function (response) {
+                    console.log(response.data);
+                    // 로그아웃 성공 처리
+                    console.log('여기2')
+                    window.location.href = '/login.html'; // 로그아웃 후 홈페이지로 리다이렉트
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    // 로그아웃 실패 처리
+                    const errorMessage = error.response.data;
+                    console.log(errorMessage);
 
                 });
+        }
+
+        axios.get('http://localhost:4000/session/check', { withCredentials: true })
+            .then(function (response) {
+                const loggedIn = response.data;
+                console.log('1: ', loggedIn)
+                const loginButton = document.getElementById('sessionLoginButton');
+                if (loggedIn) {
+                    // 세션 유지되고 있으므로 추가 작업 수행
+                    hideLoginForm();
+                    // 로그인된 상태를 보여주는 추가 작업 수행
+                    handleLoginSuccess(loggedIn);
+                    loginButton.value = '로그아웃';
+
+                    console.log('여기3')
+                    loginButton.removeEventListener('click', handleLogout);
+                    loginButton.addEventListener('click', handleLogout);
+                }
+                else {
+                    // 세션 없음으로 로그아웃 상태 페이지 표시
+                    loginButton.value = '로그인';
+                    loginButton.removeEventListener('click', handleLogout);
+                    console.log('여기4')
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+                // 세션 정보 확인 실패 처리
+            });
+    }
+
+    // 입력칸 숨기기
+    function hideLoginForm() {
+        const usernameInput = document.querySelector('input[name="username"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        usernameInput.style.display = 'none';
+        passwordInput.style.display = 'none';
+    }
+
+    const checkSessionButton = document.getElementById('checkSessionButton');
+    checkSessionButton.addEventListener('click', function () {
+        axios.get('http://localhost:4000/session/check', { withCredentials: true })
+            .then(function (response) {
+                const loggedIn = response;
+                console.log('logged', loggedIn)
+                if (loggedIn) {
+                    alert(response.data);
+                }
+                else {
+                    alert('로그인이 필요합니다.');
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert(error.response.data)
+            });
+    });
+    // 세션 데이터 가져와서 테이블에 추가하기
+    axios.get('http://localhost:4000/session/data', { withCredentials: true })
+        .then(function (response) {
+            const sessions = response.data;
+
+            const table = document.getElementById('sessionDataTable');
+
+            sessions.forEach(session => {
+                const row = document.createElement('tr');
+
+                const sessionIdCell = document.createElement('td');
+                sessionIdCell.textContent = session.session_id;
+                row.appendChild(sessionIdCell);
+
+                const dataCell = document.createElement('td');
+                dataCell.textContent = session.data;
+                row.appendChild(dataCell);
+
+                const expiresCell = document.createElement('td');
+                expiresCell.textContent = session.expires;
+                row.appendChild(expiresCell);
+
+                table.appendChild(row);
+            });
+        })
+        .catch(function (error) {
+            console.error(error);
         });
 
-      const checkSessionButton = document.getElementById('checkSessionButton');
-      checkSessionButton.addEventListener('click', function() {
-        axios.get('http://localhost:4000/session/check', { withCredentials: true })
-          .then(function(response) {
-            const loggedIn = response;
-            console.log('logged',loggedIn)
-            if (loggedIn) {
-              alert(response.data);
-            } 
-            else {
-              alert('로그인이 필요합니다.');
-            }
-          })
-          .catch(function(error) {
-            console.error(error);
-            alert(error.response.data)
-          });
-      });
-         // 세션 데이터 가져와서 테이블에 추가하기
-         axios.get('http://localhost:4000/session/data', { withCredentials: true })
-            .then(function(response) {
-                const sessions = response.data;
-                
-                const table = document.getElementById('sessionDataTable');
 
-                sessions.forEach(session => {
-                    const row = document.createElement('tr');
 
-                    const sessionIdCell = document.createElement('td');
-                    sessionIdCell.textContent = session.session_id;
-                    row.appendChild(sessionIdCell);
 
-                    const dataCell = document.createElement('td');
-                    dataCell.textContent = session.data;
-                    row.appendChild(dataCell);
+    document.getElementById("token").addEventListener("submit", function (event) {
+        event.preventDefault(); // 폼 기본 동작 중단
+        const form = event.target;
+        const formData = new FormData(form);
 
-                    const expiresCell = document.createElement('td');
-                    expiresCell.textContent = session.expires;
-                    row.appendChild(expiresCell);
+        axios.post('http://localhost:4000/token/login', {
+            username: formData.get('username'),
+            password: formData.get('password')
+        })
+            .then(function (response) {
+                console.log('1: ', response.data);
+                // 로그인 성공 처리
+                const loginMessage = document.getElementById('tokenLoginMessage');
+                loginMessage.textContent = response.data.message;
 
-                    table.appendChild(row);
-                });
+                // 토큰 저장 및 활용
+                const token = response.data.token;
+                console.log('토큰: ', token)
+                const loginButton = document.getElementById('tokenLoginButton');
+                loginButton.value = '로그아웃';
+
+                createLogoutButton('token');
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.error(error);
+                // 로그인 실패 처리
+                const loginMessage = document.getElementById('tokenLoginMessage');
+                loginMessage.textContent = error.response.data;
+
             });
-    </script>
+    });
+</script>
 </body>
 
 </html>
