@@ -10,7 +10,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos
 ### macOS ###
 # General
-.DS_Store
+/.DS_Store
 .AppleDouble
 .LSOverride
 

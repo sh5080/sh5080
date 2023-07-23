@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import sessionRoutes from './sessionRouter.js';
-import tokenRoutes from './tokenRouter.js';
+import sessionRoutes from './routes/sessionRouter.js';
+import tokenRoutes from './routes/tokenRouter.js';
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
 import cookieParser from 'cookie-parser';
-import { initializeSession } from './authHandler.js';
-import { errorHandler } from './errorHandler.js';
+import { checkSessionExpiration, initializeSession } from './middlewares/authHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
 // env
@@ -42,25 +42,23 @@ async function startServer() {
     await dbLoader();
 
     // 미들웨어 및 라우터 설정
-    // session 설정
     app.use(cookieParser());
-    app.use(initializeSession);
-
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+
+    //cors 설정
     app.use(
       cors({
-        origin: 'http://localhost:5500',
+        origin: ['http://localhost:5500', 'https://sh5080.github.io/authProject'],
         methods: ['GET', 'POST', 'OPTIONS'],
         credentials: true,
       })
     );
-
+    app.use(initializeSession);
+    app.use(checkSessionExpiration);
     app.set(db);
-
     app.use('/session', sessionRoutes);
     app.use('/token', tokenRoutes);
-
     app.use(errorHandler);
 
     // 서버 시작
