@@ -15,4 +15,8 @@ function solution(arr, queries) {
   return arr;
 }
 
+// console.log(
+//   "answer1:",
+//   solution("baconlettucetomato", ["onlettu", "etom", "to"])
+// );
 // console.log("answer2:", solution([58, 172, 746, 89]));
