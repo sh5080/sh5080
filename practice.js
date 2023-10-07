@@ -1,19 +1,30 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(arr) {
+function solution(n, slicer, num_list) {
   var answer = [];
-  let startNum = arr.indexOf(2);
-  let endNum = arr.lastIndexOf(2);
-  if (startNum === -1) {
-    return [-1];
+  if (n === 1) {
+    for (let i = 0; i <= slicer[1]; i++) {
+      answer.push(num_list[i]);
+    }
   }
-  for (let i = startNum; i <= endNum; i++) {
-    answer.push(arr[i]);
+  if (n === 2) {
+    for (let i = slicer[0]; i < num_list.length; i++) {
+      answer.push(num_list[i]);
+    }
+  }
+  if (n === 3) {
+    for (let i = slicer[0]; i <= slicer[1]; i++) {
+      answer.push(num_list[i]);
+    }
+  }
+  if (n === 4) {
+    for (let i = slicer[0]; i <= slicer[1]; i += slicer[2]) {
+      answer.push(num_list[i]);
+    }
   }
   return answer;
 }
-
 // console.log(
 //   "answer1:",
 //   solution("baconlettucetomato", ["onlettu", "etom", "to"])
