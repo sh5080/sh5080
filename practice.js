@@ -1,22 +1,21 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(arr, queries) {
-  for (let i = 0; i < queries.length; i++) {
-    const [start, end, divisor] = queries[i];
-
-    for (let j = start; j <= end; j++) {
-      if (j % divisor === 0) {
-        arr[j] += 1;
-      }
-    }
+function solution(arr) {
+  var answer = [];
+  let startNum = arr.indexOf(2);
+  let endNum = arr.lastIndexOf(2);
+  if (startNum === -1) {
+    return [-1];
   }
-
-  return arr;
+  for (let i = startNum; i <= endNum; i++) {
+    answer.push(arr[i]);
+  }
+  return answer;
 }
 
 // console.log(
 //   "answer1:",
 //   solution("baconlettucetomato", ["onlettu", "etom", "to"])
 // );
-// console.log("answer2:", solution([58, 172, 746, 89]));
+console.log("answer2:", solution([1, 2, 1, 4, 5, 2, 9]));
