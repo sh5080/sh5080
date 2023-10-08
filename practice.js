@@ -1,18 +1,23 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(strArr) {
-  let answer = {};
-  strArr = strArr.map((a) => a.length).sort((a, b) => a - b);
-  for (let i = 0; i < strArr.length; i++) {
-    if (!answer[strArr[i]]) {
-      answer[strArr[i]] = 0;
-    }
-    answer[strArr[i]]++;
-  }
-  const max = Math.max(...Object.values(answer));
+function solution(arr) {
+  let count = 0;
+  let prevArr = arr;
+  while (true) {
+    const resultArr = prevArr.map((a) => {
+      if (a >= 50 && a % 2 === 0) return a / 2;
+      if (a < 50 && a % 2 === 1) return a * 2 + 1;
+      return a;
+    });
+    const same = prevArr.every((a, i) => a === resultArr[i]);
+    if (same) break;
+    count += 1;
 
-  return max;
+    prevArr = resultArr;
+  }
+
+  return count;
 }
 
 // console.log(
