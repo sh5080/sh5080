@@ -1,16 +1,21 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(order) {
-  var answer = 0;
-  for (let i = 0; i < order.length; i++) {
-    if (order[i].includes("americano") || order[i].includes("anything")) {
-      answer += 4500;
-    } else if (order[i].includes("cafelatte")) {
-      answer += 5000;
+function solution(my_string) {
+    var answer = [];
+    let bigStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let smallStr = bigStr.toLowerCase()
+let allStr = bigStr + smallStr
+let result = new Array(allStr.length).fill(0)
+
+    for(let i = 0; i < my_string.length; i++){
+        let index = allStr.indexOf(my_string[i]);
+        if (index !== -1) {
+            result[index]++;
+        }
     }
-  }
-  return answer;
+
+    return result;
 }
 
 // console.log(
