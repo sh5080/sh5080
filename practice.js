@@ -1,21 +1,25 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(my_string) {
-    var answer = [];
-    let bigStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    let smallStr = bigStr.toLowerCase()
-let allStr = bigStr + smallStr
-let result = new Array(allStr.length).fill(0)
-
-    for(let i = 0; i < my_string.length; i++){
-        let index = allStr.indexOf(my_string[i]);
-        if (index !== -1) {
-            result[index]++;
+function solution(arr) {
+    var stk = [];
+    let i = 0;
+    let answer = 0;
+    while(i<arr.length){
+    if(i < arr.length){
+        if(stk.length===0){
+            stk.push(arr[i])
+            i++
+        } if(stk.length>0 && stk[stk.length-1]<arr[i]){
+            stk.push(arr[i])
+            i++
+        } if(stk.length>0 && stk[stk.length-1]>=arr[i]){
+            answer = stk.pop()
         }
+        
     }
-
-    return result;
+    }
+    return stk;
 }
 
 // console.log(
