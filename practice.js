@@ -1,40 +1,30 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(str_list) {
+function solution(arr) {
     var answer = [];
-    let earlyL = str_list.indexOf('l')
-    let earlyR = str_list.indexOf('r')
-    console.log('earlyL: ',earlyL, 'earlyR: ',earlyR)
-    if(earlyL === -1 && earlyR === -1
-      ){
-        console.log('1번 케이스')
-        return answer
-    }
-    else if(earlyL < earlyR && earlyL !== -1 ||
-            earlyL > earlyR && earlyR === -1
-           ){
-        for(let i = 0; i < earlyL; i++){
-            answer.push(str_list[i])
-            console.log('2번 케이스',answer)
+    let i = 0
+    let stk = [];
+    while(i < arr.length){
+        if(stk.length === 0){
+            stk.push(arr[i])
+            i++;
+        }else if(stk.length !== 0
+            && stk[stk.length-1] === arr[i]
+                ){
+            stk.pop()
+            i++;
+        }else if(stk.length !== 0 
+            && stk[stk.length-1] !== arr[i]
+        ){
+            stk.push(arr[i])
+            i++;
         }
     }
-    else if(earlyL > earlyR && earlyR !== -1 || 
-            earlyL < earlyR && earlyL === -1 ||
-           earlyL < earlyR && earlyL === -1
-       && str_list[0]==='r'
-           ){
-       for(let i = earlyR+1; i < str_list.length; i++){
-            answer.push(str_list[i])
-           console.log('3번 케이스',answer)
-        }  
-    }
-    else {
-        return answer
-    }
-    return answer;
+    if(stk.length === 0){
+        return [-1]
+    }else return stk;
 }
-
 // console.log(
 //   "answer1:",
 //   solution("baconlettucetomato", ["onlettu", "etom", "to"])
