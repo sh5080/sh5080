@@ -1,14 +1,27 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(s) {
-    var answer = '';
-    let arr = s.split(' ').map(Number).sort((a,b)=>a-b)
-    let first = String(arr[0])
-    let last = String(arr[arr.length-1])
-    
-    return first + ' ' + last;
+function solution(arr, queries) {
+    var answer = [];
+    for(let i = 0; i < queries.length; i++) {
+        let [s, e, k] = queries[i];
+        let min = Infinity; 
+        
+        for(let j = s; j <= e; j++) {
+            if(arr[j] > k && arr[j] < min) {
+                min = arr[j];
+            }
+        }
+        
+        if(min === Infinity) {
+            answer.push(-1); 
+        } else {
+            answer.push(min);
+        }
+    }
+    return answer;
 }
+
 
 // console.log(
 //   "answer1:",
