@@ -1,9 +1,6 @@
 <p align="center"> 하루도 쉬지않고 개발이 재미있어서 하는 백엔드 개발자 김승환입니다.</p>
 <p align="center"> 솔직히 누구보다 뛰어나지는 않지만 누구보다 열심히 할 자신은 있습니다.</p>
 
-<p align="center">
-    <img src="https://github-readme-stats.vercel.app/api?username=sh5080&count_private=true&show_icons=true&theme=radical" />
-</p>
 
 <br />
 
