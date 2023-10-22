@@ -1,17 +1,27 @@
 const fs = require("fs");
 let input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(order) {
-  var answer = 0;
-  for (let i = 0; i < order.length; i++) {
-    if (order[i].includes("americano") || order[i].includes("anything")) {
-      answer += 4500;
-    } else if (order[i].includes("cafelatte")) {
-      answer += 5000;
+function solution(arr, queries) {
+    var answer = [];
+    for(let i = 0; i < queries.length; i++) {
+        let [s, e, k] = queries[i];
+        let min = Infinity; 
+        
+        for(let j = s; j <= e; j++) {
+            if(arr[j] > k && arr[j] < min) {
+                min = arr[j];
+            }
+        }
+        
+        if(min === Infinity) {
+            answer.push(-1); 
+        } else {
+            answer.push(min);
+        }
     }
-  }
-  return answer;
+    return answer;
 }
+
 
 // console.log(
 //   "answer1:",
