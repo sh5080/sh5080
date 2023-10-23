@@ -1,44 +1,40 @@
 <p align="center"> 하루도 쉬지않고 개발이 재미있어서 하는 백엔드 개발자 김승환입니다.</p>
 <p align="center"> 솔직히 누구보다 뛰어나지는 않지만 누구보다 열심히 할 자신은 있습니다.</p>
-<div style="display: flex; justify-content: center;">
-    <div style="max-width: 800px;">
-        <div style="display: flex; justify-content: space-between; text-align: center;">
-            <div style="flex: 1;">
-                <h3> Backend Tech Stack </h3>
-                <p>
-                    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=ts-node&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/NodeJS-11B48A?style=flat&logo=Node.js&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=NestJS&logoColor=white" />&nbsp
-                </p>
-                <h3> Frontend Tech Stack </h3>
-                <p>
-                    <img src="https://img.shields.io/badge/vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white" />&nbsp
-                </p>
-            </div>
-            <div style="flex: 1;">
-                <h3> Database Tech Stack </h3>
-                <p>
-                    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySql&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/MariaDB-00599C?style=flat&logo=mariadb&logoColor=white" />&nbsp
-                </p>
-                <p>
-                    <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=MongoDB&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white" />&nbsp
-                </p>
-                <p>
-                    <img src="https://img.shields.io/badge/Sequelize-A8B9CC?style=flat&logo=Sequelize&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/TypeORM-376E93?style=flat&logo=TypeScript&logoColor=white" />&nbsp
-                </p>
-            </div>
-            <div style="flex: 1;">
-                <h3> Cloud Tech Stack </h3>
-                <p>
-                    <img src="https://img.shields.io/badge/EC2-FF9900?style=flat&logo=amazonec2&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/S3-569A31?style=flat&logo=amazons3&logoColor=white" />&nbsp
-                    <img src="https://img.shields.io/badge/GCP-4285F4?style=flat&logo=google-cloud&logoColor=white" />&nbsp
-                </p>
-            </div>
-        </div>
+
+<p><img align="center" height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=sh5080&theme=" alt="sh5080" /></p>
+<div style="display: flex; justify-content: space-between;">
+    <div style="flex: 1; text-align: center; align-self: center; margin: 0 auto;">
+        <h3> Backend Tech Stack </h3>
+        <p>
+            <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=ts-node&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/NodeJS-11B48A?style=flat&logo=Node.js&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/NestJS-E0234E?style=flat&logo=NestJS&logoColor=white" />&nbsp
+        </p>
+        <h3> Frontend Tech Stack </h3>
+        <p>
+            <img src="https://img.shields.io/badge/vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white" />&nbsp
+        </p>
+    </div>
+    <div style="flex: 1; text-align: center; margin: 0 auto;">
+        <h3> Database Tech Stack </h3>
+        <p>
+            <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySql&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/MariaDB-00599C?style=flat&logo=mariadb&logoColor=white" />&nbsp
+        </p>
+        <p>
+            <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=MongoDB&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white" />&nbsp
+        </p>
+        <p>
+            <img src="https://img.shields.io/badge/Sequelize-A8B9CC?style=flat&logo=Sequelize&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/TypeORM-376E93?style=flat&logo=TypeScript&logoColor=white" />&nbsp
+        </p>
+        <h3> Cloud Tech Stack </h3>
+        <p>
+            <img src="https://img.shields.io/badge/EC2-FF9900?style=flat&logo=amazonec2&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/S3-569A31?style=flat&logo=amazons3&logoColor=white" />&nbsp
+            <img src="https://img.shields.io/badge/GCP-4285F4?style=flat&logo=google-cloud&logoColor=white" />&nbsp
+        </p>
     </div>
 </div>
 
