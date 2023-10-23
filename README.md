@@ -1,6 +1,5 @@
 <p align="center"> 하루도 쉬지않고 개발이 재미있어서 하는 백엔드 개발자 김승환입니다.</p>
 <p align="center"> 솔직히 누구보다 뛰어나지는 않지만 누구보다 열심히 할 자신은 있습니다.</p>
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=sh5080&theme=" alt="sh5080" /></p>
 
 <h3 align="center"> Backend Tech Stack </h3>
         <p align="center">
@@ -37,6 +36,7 @@
     <a href="mailto:prpn97@gmail.com"><img
             src="https://img.shields.io/badge/GMAIL-EA4335?style=flat-square&logo=Gmail&logoColor=white&link=prpn97@gmail.com" /></a>&nbsp
 </p>
+<p align="center"><img src="https://github-readme-streak-stats.herokuapp.com/?user=sh5080&locale=ko&theme=" alt="sh5080" /></p>
 
 <br />
 
