@@ -1,8 +1,7 @@
 <p align="center"> 하루도 쉬지않고 개발이 재미있어서 하는 백엔드 개발자 김승환입니다.</p>
 <p align="center"> 솔직히 누구보다 뛰어나지는 않지만 누구보다 열심히 할 자신은 있습니다.</p>
-
 <div style="display: flex; justify-content: space-between;">
-    <div style="flex: 1; text-align: center; align-self: center;">
+    <div style="flex: 1; text-align: center; align-self: center; margin: 0 auto;">
         <h3> Backend Tech Stack </h3>
         <p>
             <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=ts-node&logoColor=white" />&nbsp
@@ -14,7 +13,7 @@
             <img src="https://img.shields.io/badge/vue.js-4FC08D?style=flat&logo=vue.js&logoColor=white" />&nbsp
         </p>
     </div>
-    <div style="flex: 1; text-align: center;">
+    <div style="flex: 1; text-align: center; margin: 0 auto;">
         <h3> Database Tech Stack </h3>
         <p>
             <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySql&logoColor=white" />&nbsp
