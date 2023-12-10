@@ -14,6 +14,7 @@
     <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white" />&ensp;&ensp;
     <img src="https://img.shields.io/badge/Sequelize-A8B9CC?style=flat&logo=Sequelize&logoColor=white" />&nbsp
     <img src="https://img.shields.io/badge/TypeORM-376E93?style=flat&logo=TypeScript&logoColor=white" />&nbsp
+    <img src="https://img.shields.io/badge/Prisma-1B222D?style=flat&logo=Prisma&logoColor=white" />&nbsp
 </p>
         <h3 align="center"> Cloud Tech Stack </h3>
         <p align="center">
