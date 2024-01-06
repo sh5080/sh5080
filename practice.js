@@ -1,33 +1,20 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(rank, attendance) {
-  let answer = 0;
-  const originRank = [...rank];
-  const sortRank = rank.sort((a, b) => a - b);
-  let sortAttendance = [];
-  for (let i = 0; i < rank.length; i++) {
-    sortAttendance.push(attendance[originRank.indexOf(sortRank[i])]);
-  }
-  const trueArr = sortAttendance
-    .map((v, i) => (v === true ? i + 1 : undefined))
-    .filter((index) => index !== undefined);
+function solution(code) {
+  let mode = 0;
+  let ret = "";
+  const codeArray = code.split("");
 
-  const answerRank = trueArr.map((v) => originRank.indexOf(v));
-  answer = answerRank[0] * 10000 + answerRank[1] * 100 + answerRank[2];
-  return answer;
+  codeArray.forEach((e, i) => {
+    if (mode === 0) {
+      e !== "1" && i % 2 === 0 ? (ret += e) : e === "1" ? (mode = 1) : null;
+    } else {
+      e !== "1" && i % 2 === 1 ? (ret += e) : e === "1" ? (mode = 0) : null;
+    }
+  });
+
+  return ret === "" ? "EMPTY" : ret;
 }
 
-console.log(
-  "answer1:",
-  solution(
-    [3, 7, 2, 5, 4, 6, 1],
-    [false, true, true, true, true, false, false],
-    20403
-  )
-);
-console.log("answer2:", solution([1, 2, 3], [true, true, true], 102));
-console.log(
-  "answer3:",
-  solution([6, 1, 5, 2, 3, 4], [true, false, true, false, false, true], 50200)
-);
+console.log("enswer1:", solution("ab1cd1ef1gh"));
