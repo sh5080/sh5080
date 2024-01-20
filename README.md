@@ -37,7 +37,6 @@
     <a href="mailto:prpn97@gmail.com"><img
             src="https://img.shields.io/badge/GMAIL-EA4335?style=flat-square&logo=Gmail&logoColor=white&link=prpn97@gmail.com" /></a>&nbsp
 </p>
-<p align="center"><img src="https://github-readme-streak-stats.herokuapp.com/?user=sh5080&locale=ko&theme=" alt="sh5080" /></p>
 
 <br />
 
