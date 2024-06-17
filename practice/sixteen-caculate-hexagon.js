@@ -1,4 +1,7 @@
 class ScoreCalculator {
+  // *****************************************************************
+  // *********************** 1. 나의 소득 계산 식 ************************
+  // *****************************************************************
   medianIncomeScores = [
     { score: 0.5, percentageInterval: 10 },
     { score: 1.0, percentageInterval: 10 },
@@ -199,10 +202,72 @@ class ScoreCalculator {
 
     return 0; // 해당하는 구간이 없으면 0점 반환
   }
+  // *****************************************************************
+  // *********************** 2. 나의 자산 계산 식 ************************
+  // *****************************************************************
+  assetScoreRanges = [
+    { minAsset: 0, maxAsset: 10000000, baseScore: 0, intervalScore: 1 },
+    { minAsset: 10000001, maxAsset: 20000000, baseScore: 1, intervalScore: 1 },
+    { minAsset: 20000001, maxAsset: 40000000, baseScore: 2, intervalScore: 1 },
+    { minAsset: 40000001, maxAsset: 60000000, baseScore: 3, intervalScore: 1 },
+    { minAsset: 60000001, maxAsset: 80000000, baseScore: 4, intervalScore: 1 },
+    { minAsset: 80000001, maxAsset: 100000000, baseScore: 5, intervalScore: 1 },
+    {
+      minAsset: 100000001,
+      maxAsset: 130000000,
+      baseScore: 6,
+      intervalScore: 1.5,
+    },
+    {
+      minAsset: 130000001,
+      maxAsset: 160000000,
+      baseScore: 7,
+      intervalScore: 0.5,
+    },
+    {
+      minAsset: 160000001,
+      maxAsset: 200000000,
+      baseScore: 7.5,
+      intervalScore: 0.5,
+    },
+    {
+      minAsset: 200000001,
+      maxAsset: 260000000,
+      baseScore: 8,
+      intervalScore: 1,
+    },
+    {
+      minAsset: 260000001,
+      maxAsset: 330000000,
+      baseScore: 9,
+      intervalScore: 1,
+    },
+    {
+      minAsset: 330000001,
+      maxAsset: Infinity,
+      baseScore: 10,
+      intervalScore: 0,
+    },
+  ];
+  wealth(asset) {
+    for (const range of this.assetScoreRanges) {
+      if (asset >= range.minAsset && asset <= range.maxAsset) {
+        const interval = range.maxAsset - range.minAsset;
+        const relativePosition = asset - range.minAsset;
+        const score =
+          range.baseScore + (relativePosition / interval) * range.intervalScore;
+        return Math.round(score * 100) / 100;
+      }
+    }
+    return 0; // 해당하는 구간이 없으면 0점 반환
+  }
 }
 
 // 사용 예제
 const calculator = new ScoreCalculator();
 const myAnnualIncome = 850374613; // 연소득 예제 값 //227301391 9.5 나오는 문제 있음.
+const myWealthIncome = 15000000; // 순자산 예제 값
 const myScore = calculator.salary(myAnnualIncome);
+const myWealth = calculator.wealth(myWealthIncome);
 console.log(`${myAnnualIncome}: ${myScore}점입니다.`);
+console.log(`나의 자산 점수는: ${myWealth}점입니다.`);
