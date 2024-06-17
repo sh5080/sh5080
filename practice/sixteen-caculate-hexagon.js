@@ -261,13 +261,85 @@ class ScoreCalculator {
     }
     return 0; // 해당하는 구간이 없으면 0점 반환
   }
+
+  // *****************************************************************
+  // *********************** 3. 집안 자산 계산 식 ************************
+  // *****************************************************************
+  familyWealthScoreRanges = [
+    { minAsset: 0, maxAsset: 100000000, baseScore: 0 },
+    {
+      minAsset: 100000001,
+      maxAsset: 200000000,
+      baseScore: 1,
+    },
+    {
+      minAsset: 200000001,
+      maxAsset: 300000000,
+      baseScore: 3,
+    },
+    {
+      minAsset: 300000001,
+      maxAsset: 400000000,
+      baseScore: 5,
+    },
+    {
+      minAsset: 400000001,
+      maxAsset: 500000000,
+      baseScore: 6,
+    },
+    {
+      minAsset: 500000001,
+      maxAsset: 600000000,
+      baseScore: 7,
+    },
+    {
+      minAsset: 600000001,
+      maxAsset: 700000000,
+      baseScore: 7.5,
+    },
+    {
+      minAsset: 700000001,
+      maxAsset: 800000000,
+      baseScore: 8,
+    },
+    {
+      minAsset: 800000001,
+      maxAsset: 900000000,
+      baseScore: 8.5,
+    },
+    {
+      minAsset: 900000001,
+      maxAsset: 1000000000,
+      baseScore: 9,
+    },
+    {
+      minAsset: 1000000001,
+      maxAsset: Infinity,
+      baseScore: 9.5,
+    },
+  ];
+  family(asset) {
+    for (const range of this.familyWealthScoreRanges) {
+      if (asset >= range.minAsset && asset <= range.maxAsset) {
+        const interval = range.maxAsset - range.minAsset;
+        const relativePosition = range.maxAsset - asset;
+        const score = relativePosition / interval + range.baseScore;
+        console.log(relativePosition, interval, range.baseScore);
+        return Math.round(score * 100) / 100; // 소수점 둘째자리 반올림
+      }
+    }
+    return 0; // 해당하는 구간이 없으면 0점 반환
+  }
 }
 
 // 사용 예제
 const calculator = new ScoreCalculator();
 const myAnnualIncome = 850374613; // 연소득 예제 값 //227301391 9.5 나오는 문제 있음.
 const myWealthIncome = 15000000; // 순자산 예제 값
+const myFamilyIncome = 650000000; // 집안자산 예제 값
 const myScore = calculator.salary(myAnnualIncome);
 const myWealth = calculator.wealth(myWealthIncome);
+const myFamily = calculator.family(myFamilyIncome);
 console.log(`${myAnnualIncome}: ${myScore}점입니다.`);
 console.log(`나의 자산 점수는: ${myWealth}점입니다.`);
+console.log(`집안 자산 점수는: ${myFamily}점입니다.`);
