@@ -1,17 +1,22 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(a, b) {
-  let answer = 0;
-  a.sort((a, b) => a - b);
-  b.sort((a, b) => b - a);
+function solution(s) {
+  let temp = s;
 
-  for (let i = 0; i < a.length; i++) {
-    answer += a[i] * b[i];
+  let deleteCount = 0;
+  let deletedLength = s.length;
+  let answerA = 0;
+  let answerB = 0;
+  while (deletedLength > 1) {
+    deleteCount = temp.replaceAll("1", "").length;
+
+    deletedLength = temp.length - deleteCount;
+
+    temp = deletedLength.toString(2);
+    answerA++;
+    answerB += deleteCount;
   }
-
-  return answer;
+  return [answerA, answerB];
 }
-
-console.log("answer2:", solution([1, 4, 2], [5, 4, 4]));
-console.log("answer3:", solution([1, 2], [3, 4]));
+console.log("answer1:", solution("1111111"));
