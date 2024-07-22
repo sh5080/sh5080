@@ -1,33 +1,36 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-// ** 내가 푼 답 (무한으로 빠지는 오류가 있음.)
-// function solution(n) {
-//   return func(n - 2) + func(n - 1);
-// }
-// function func(n) {
-//   if (n === 0) {
-//     return 0;
-//   } else if (n === 1) {
-//     return 1;
-//   } else {
-//     return solution(n);
-//   }
-// }
-
+// ** 내가 푼 답 (효율성 문제 생김)
 function solution(n) {
-  const num = 1234567;
-  if (n === 0) return 0;
-  if (n === 1) return 1;
+  let temp = n;
+  let i = 0;
 
-  let a = 0,
-    b = 1;
-  for (let i = 2; i <= n; i++) {
-    let temp = (a + b) % num;
-    a = b;
-    b = temp;
+  while (i < temp.length - 1) {
+    if (temp[i] === temp[i + 1]) {
+      temp = temp.slice(0, i) + temp.slice(i + 2);
+      i = Math.max(i - 1, 0);
+    } else {
+      i++;
+    }
   }
-  return b;
-}
 
-console.log("answer1:", solution(5));
+  if (temp.length > 0) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+// 개선 답안
+function solution(n) {
+  const stack = [];
+  for (let i = 0; i < n.length; i++) {
+    if (stack.length > 0 && stack[stack.length - 1] === n[i]) {
+      stack.pop();
+    } else {
+      stack.push(n[i]);
+    }
+  }
+  return stack.length === 0 ? 1 : 0;
+}
+console.log("answer2:", solution("dcdcaa"));
