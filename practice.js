@@ -2,19 +2,28 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 function solution(n) {
-  const MOD = 1234567;
+  const arr = n.sort((a, b) => a - b);
+  const lastIdx = arr[arr.length - 1];
 
-  if (n === 0 || n === 1) {
-    return 1;
+  let i = 1;
+  let temp = 0;
+  let result = 0;
+  while (result < lastIdx ** 2) {
+    for (let j = 0; j < arr.length; j++) {
+      if ((lastIdx * i) % arr[j] !== 0) {
+        break;
+      } else {
+        temp++;
+      }
+    }
+    if (temp === arr.length) {
+      result = lastIdx * i;
+      break;
+    }
+    temp = 0;
+    i++;
   }
-  const dp = new Array(n + 1).fill(0);
-  dp[0] = 1;
-  dp[1] = 1;
-
-  for (let i = 2; i <= n; i++) {
-    dp[i] = (dp[i - 1] + dp[i - 2]) % MOD;
-  }
-
-  return dp[n];
+  return result;
 }
-console.log("answer1:", solution(4));
+console.log("answer1:", solution([2, 6, 8, 14]));
+// console.log("answer2:", solution([1, 2, 3]));
