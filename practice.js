@@ -1,48 +1,20 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-// 내가 푼 답 (해결못함.. )
-function solution(people, limit) {
-  let sorted = people.sort((a, b) => a - b);
-  let sliced = sorted;
-  let prev = 0;
-  let boat = 0;
-  let i = 0;
+function solution(n) {
+  const MOD = 1234567;
 
-  while (sliced.length > 0) {
-    if (sliced.length === 1) {
-      boat++;
-      return boat;
-    }
-
-    prev += sorted[i];
-    if (prev === limit) {
-      sliced = sorted.slice(i + 1, sorted.length);
-      boat++;
-      prev = 0;
-    } else if (prev > limit) {
-      sliced = sorted.slice(i, sorted.length);
-      boat++;
-    }
-    i++;
+  if (n === 0 || n === 1) {
+    return 1;
   }
-  return boat;
-}
-// gpt
-function solution(people, limit) {
-  people.sort((a, b) => a - b);
-  let i = 0;
-  let j = people.length - 1;
-  let boats = 0;
+  const dp = new Array(n + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = 1;
 
-  while (i <= j) {
-    if (people[i] + people[j] <= limit) {
-      i++;
-    }
-    j--;
-    boats++;
+  for (let i = 2; i <= n; i++) {
+    dp[i] = (dp[i - 1] + dp[i - 2]) % MOD;
   }
 
-  return boats;
+  return dp[n];
 }
-console.log("answer1:", solution([70, 50, 80, 50], 100));
+console.log("answer1:", solution(4));
