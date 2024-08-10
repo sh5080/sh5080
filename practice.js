@@ -1,29 +1,41 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function solution(n) {
-  const arr = n.sort((a, b) => a - b);
-  const lastIdx = arr[arr.length - 1];
+function solution(n, words) {
+  let first = 0;
+  let second = 0;
 
-  let i = 1;
-  let temp = 0;
-  let result = 0;
-  while (result < lastIdx ** 2) {
-    for (let j = 0; j < arr.length; j++) {
-      if ((lastIdx * i) % arr[j] !== 0) {
-        break;
-      } else {
-        temp++;
-      }
+  for (let i = 1; i < words.length; i++) {
+    if (words[i][0] !== words[i - 1][words[i - 1].length - 1]) {
+      first = (i % n) + 1;
+      second = Math.floor(i / n) + 1;
+      return [first, second];
     }
-    if (temp === arr.length) {
-      result = lastIdx * i;
-      break;
-    }
-    temp = 0;
-    i++;
   }
-  return result;
+  let set = new Set();
+  for (let j = 0; j < words.length; j++) {
+    set.add(words[j]);
+    if (set.size === j) {
+      first = (j % n) + 1;
+      second = Math.floor(j / n) + 1;
+      return [first, second];
+    }
+  }
+
+  return [first, second];
 }
-console.log("answer1:", solution([2, 6, 8, 14]));
+console.log(
+  "answer1:",
+  solution(3, [
+    "tank",
+    "kick",
+    "know",
+    "wheel",
+    "land",
+    "dream",
+    "mother",
+    "robot",
+    "tank",
+  ])
+);
 // console.log("answer2:", solution([1, 2, 3]));
