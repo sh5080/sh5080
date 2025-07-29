@@ -2,28 +2,13 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 /**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
+ * @param {number} x
+ * @return {boolean}
  */
-function reverse(list) {
-  let result = [];
-  const val = String(list);
-  console.log(val);
+var isPalindrome = function (x) {
+  const str = x.toString().split("").join("");
+  const reversed = x.toString().split("").reverse().join("");
 
-  for (let i = list.length - 1; i > 0; i--) {
-    console.log(i);
-    result.push(list[i]);
-  }
-  console.log(result);
-  return result;
-}
-var addTwoNumbers = function (l1, l2) {
-  const list1 = reverse(l1).join("");
-  const list2 = reverse(l2).join("");
-  const temp = Number(list1) + Number(list2);
-
-  console.log(temp);
-  return temp;
+  return str === reversed;
 };
-addTwoNumbers([2, 4, 3], [5, 6, 4]);
+console.log(isPalindrome(121));
