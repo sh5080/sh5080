@@ -1,19 +1,15 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
+
 /**
- * @param {number[]} digits
- * @return {number[]}
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
  */
-var plusOne = function (digits) {
-  for (let i = digits.length - 1; i >= 0; i--) {
-    if (digits[i] < 9) {
-      digits[i]++;
-      return digits;
-    }
-    digits[i] = 0;
-  }
-  digits.unshift(1);
-  return digits;
+var addBinary = function (a, b) {
+  let result = BigInt(`0b${a}`) + BigInt(`0b${b}`);
+  return result.toString(2);
 };
-console.log(plusOne([1, 2, 3]));
+
+console.log(addBinary("11", "1"));
