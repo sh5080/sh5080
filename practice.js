@@ -2,13 +2,18 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 /**
- * @param {string} s
- * @return {number}
+ * @param {number[]} digits
+ * @return {number[]}
  */
-var lengthOfLastWord = function (s) {
-  let trim = s.trim().split(" ");
-  let result = trim[trim.length - 1].length;
-
-  return result;
+var plusOne = function (digits) {
+  for (let i = digits.length - 1; i >= 0; i--) {
+    if (digits[i] < 9) {
+      digits[i]++;
+      return digits;
+    }
+    digits[i] = 0;
+  }
+  digits.unshift(1);
+  return digits;
 };
-console.log(lengthOfLastWord("   fly me   to   the moon  "));
+console.log(plusOne([1, 2, 3]));
