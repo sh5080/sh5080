@@ -1,29 +1,35 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
 /**
- * @param {string} s
- * @return {number}
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
  */
-var romanToInt = function (s) {
-  const int = {
-    I: 1,
-    V: 5,
-    X: 10,
-    L: 50,
-    C: 100,
-    D: 500,
-    M: 1000,
-  };
-  let arr = [];
-  for (let i = 0; i < s.length; i++) {
-    arr.push(int[s[i]]);
+var mergeTwoLists = function (list1, list2) {
+  let current1 = list1;
+  let current2 = list2;
+  let temp = [];
+  while (current1 != null) {
+    temp.push(current1.val);
+    current1 = current1.next;
   }
-  let result = 0;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] >= arr[i + 1] || i === arr.length - 1) result = result + arr[i];
-    if (arr[i] < arr[i + 1]) result = result - arr[i];
+  while (current2 != null) {
+    temp.push(current2.val);
+    current2 = current2.next;
   }
-  return result;
+  temp.sort((a, b) => a - b);
+  let head = new ListNode();
+  let result = head;
+  temp.map((val) => {
+    result.next = new ListNode(Number(val));
+    result = result.next;
+  });
+
+  return head.next;
 };
-console.log(romanToInt("MCMXCIV"));
+console.log(mergeTwoLists([1, 2, 4], [1, 3, 4]));
