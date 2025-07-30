@@ -2,20 +2,13 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 /**
- * @param {number[]} nums
- * @param {number} target
+ * @param {string} s
  * @return {number}
  */
-var searchInsert = function (nums, target) {
-  let idx = nums.indexOf(target);
-  if (idx != -1) return idx;
-  if (target < nums[0]) return 0;
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] < target && target < nums[i + 1]) {
-      return i + 1;
-    }
-  }
+var lengthOfLastWord = function (s) {
+  let trim = s.trim().split(" ");
+  let result = trim[trim.length - 1].length;
 
-  return nums.length;
+  return result;
 };
-console.log(searchInsert([1, 3, 5, 6], 7));
+console.log(lengthOfLastWord("   fly me   to   the moon  "));
