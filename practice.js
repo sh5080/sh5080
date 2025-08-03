@@ -2,18 +2,14 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 
-function groupAnagrams(strs) {
+function topKFrequent(nums, k) {
   const obj = {}
-  strs.map((str)=> {
-
-      if(!Object.keys(obj).includes(str.split('').sort().join(''))){
-          obj[str.split('').sort().join('')] = [str]
-      }else {
-          obj[str.split('').sort().join('')].push(str)
-      }
-    })
-
-  return Object.values(obj)
+  nums.map((num)=> {
+      obj[num] = !obj[num] ? 1 : Number(obj[num]) + 1
+  })
+return Object.keys(obj)
+.sort((a, b) => obj[b] - obj[a]) 
+.slice(0, k);
 }
 
-console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
+console.log(topKFrequent([1,1,1,2,2,3], 2));
