@@ -2,14 +2,18 @@ const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
 
-/**
- * @param {string} a
- * @param {string} b
- * @return {string}
- */
-var addBinary = function (a, b) {
-  let result = BigInt(`0b${a}`) + BigInt(`0b${b}`);
-  return result.toString(2);
-};
+function groupAnagrams(strs) {
+  const obj = {}
+  strs.map((str)=> {
 
-console.log(addBinary("11", "1"));
+      if(!Object.keys(obj).includes(str.split('').sort().join(''))){
+          obj[str.split('').sort().join('')] = [str]
+      }else {
+          obj[str.split('').sort().join('')].push(str)
+      }
+    })
+
+  return Object.values(obj)
+}
+
+console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
