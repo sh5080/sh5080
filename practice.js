@@ -1,9 +1,12 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-function isPalindrome(s) {
-    const trimmed = s.replace(/[^a-zA-Z0123456789]/g, '').toLowerCase();
-    const reversed = trimmed.split('').reverse().join('')
-    return trimmed === reversed
+function twoSum(numbers, target) {
+    for(let i = 0; i < numbers.length; i++){
+        for(let j = i; j < numbers.length; j++){
+            if(numbers[i] + numbers[j] === target) return [i+1,j+1]
+        }
+    }
 }
-console.log(isPalindrome("A man, a plan, a canal: Panama"))
+
+console.log(twoSum([2,7,11,15],9))
